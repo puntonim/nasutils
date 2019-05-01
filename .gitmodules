@@ -1,0 +1,3 @@
+[submodule "nimlinks"]
+	path = nimlinks
+	url = git@github.com:puntonim/nimlinks.git
