@@ -1,0 +1,6 @@
+[main]
+# Or: /usr/local/bin/gfind  -- for GNU find in macOS (brew it).
+find-cmd = /usr/bin/find
+wc-cmd = /usr/bin/wc
+sort-cmd = /usr/bin/sort
+uniq-cmd = /usr/bin/uniq

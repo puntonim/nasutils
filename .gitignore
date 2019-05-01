@@ -159,3 +159,4 @@ dmypy.json
 ## CUSTOM.
 
 .idea/
+config.ini
