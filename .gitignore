@@ -160,3 +160,4 @@ dmypy.json
 
 .idea/
 config.ini
+rm_dupes_*.sh

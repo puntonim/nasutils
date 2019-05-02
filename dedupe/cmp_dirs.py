@@ -9,7 +9,7 @@ It is a wrapper around the command:
 $ find dir1 dir2 -printf "%P\t%s\n" | sort | uniq -u
 
 Usage:
-    $ cmp_dirs.py dir1 dir1
+    $ cmp_dirs.py dir1 dir
 """
 import os
 import subprocess
@@ -40,7 +40,7 @@ def parse_args():
 
 
 def find_diff(dir1, dir2):
-    # Eg.: $ gfind dir1 dir2 -printf "%P\t%s\n" | sort | uniq -u
+    # Eg.: $ find dir1 dir2 -printf "%P\t%s\n" | sort | uniq -u
     cmd = '{} "{}" "{}" -printf "%P\\t%s\\n" | {} | {} -u'.format(
         FIND_CMD, dir1, dir2, SORT_CMD, UNIQ_CMD)
     output = subprocess.check_output(cmd, shell=True).rstrip()
@@ -66,8 +66,8 @@ def _print_diff(relative_path, size, dir1, dir2):
 
 
 if __name__ == '__main__':
-    utils.print_msg('DEDUPE DIRS')
-    utils.print_msg('===========')
+    utils.print_msg('COMPARE DIRS')
+    utils.print_msg('============')
 
     dir1, dir2 = parse_args()
     find_diff(dir1, dir2)
