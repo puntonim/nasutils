@@ -12,7 +12,11 @@ $ md5 -q myfile.jpg
 Usage:
     $ dedupe_files.py [--write-rm-script] root
 Options:
-    --write-rm-script   Write a Bash script for the actual deletion of duplicated files
+    --write-rm-script       Write a Bash script for the actual deletion of duplicated files
+    --exclude-pathname      Exclude files with this name in their path.
+                            Eg. to exclude a subdir: -exclude-pathname="*/my subdir/*"
+                            Eg. to exclude all *.iso files: -exclude-pathname="*.iso"
+                            This option can be used multiple times.
 
 Note: the format for the Bash script created with the option `--write-rm-script` is:
 ```
@@ -44,13 +48,27 @@ CHECKSUM_CMD = utils.config.get('main', 'checksum-cmd')
 
 
 do_write_rm_script = False
+exclude_pathnames = []
 
 
 def parse_args():
+    # Handle '--write-rm-script' option.
     if '--write-rm-script' in sys.argv:
         sys.argv.remove('--write-rm-script')
         global do_write_rm_script
         do_write_rm_script = True
+
+    # Handle '--exclude-pathname' option. It can be used multiple times.
+    idx_to_delete = []
+    for i, argv in enumerate(sys.argv):
+        if argv.startswith('--exclude-pathname'):
+            global exclude_pathnames
+            exclude_pathnames.append(argv.split('=')[1])
+            idx_to_delete.append(i)
+    idx_to_delete.sort()
+    idx_to_delete.reverse()
+    for idx in idx_to_delete:
+        del sys.argv[idx]
 
     try:
         root = os.path.abspath(sys.argv[1])
@@ -70,9 +88,12 @@ class Deduper(object):
         self.checksums_dupes_map = defaultdict(list)
 
     def find_dupes(self):
+        exclude_pathnames_option = ''
+        for pathname in exclude_pathnames:
+            exclude_pathnames_option += '! -path "{}" '.format(pathname)
         # Eg.: $ find root -type f ! -path "*@eaDir*" ! -name ".DS_Store" -printf "%f\t%s\n" | sort | uniq -d
-        cmd = '{} "{}" -type f ! -path "*@eaDir*" ! -name ".DS_Store" -printf "%f\\t%s\\n" | {} | {} -d'.format(
-            FIND_CMD, self.root, SORT_CMD, UNIQ_CMD)
+        cmd = '{} "{}" -type f ! -path "*@eaDir*" ! -name ".DS_Store" {} -printf "%f\\t%s\\n" | {} | {} -d'.format(
+            FIND_CMD, self.root, exclude_pathnames_option, SORT_CMD, UNIQ_CMD)
         output = subprocess.check_output(cmd, shell=True).rstrip()
         if not output:
             utils.print_msg('No dupes\n')

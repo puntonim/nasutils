@@ -46,4 +46,7 @@ No errors - DONE
 ```
 Options:
  - `--write-rm-script` to write a Bash script to perform the actual deletion of duplicated files.
- 
+ - `--exclude-pathname` to exclude files with this name in their path.   
+    Eg. to exclude a subdir: `-exclude-pathname="*/my subdir/*"`   
+    Eg. to exclude all *.iso files: `-exclude-pathname="*.iso"`   
+    This option can be used multiple times.
