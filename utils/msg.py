@@ -17,3 +17,9 @@ def print_msg(msg):
     OK = OKCOL + 'OK' + ENDCOL
     DONE = OKCOL + 'DONE' + ENDCOL
     print(msg.replace('OK', OK).replace('DONE', DONE))
+
+
+def print_wrn(msg):
+    WARNCOL = '\033[93m'
+    ENDCOL = '\033[0m'
+    print(WARNCOL + msg +ENDCOL)

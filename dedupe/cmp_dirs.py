@@ -40,7 +40,7 @@ def parse_args():
 
 
 def find_diff(dir1, dir2):
-    # Eg.: $ find dir1 dir2 -printf "%P\t%s\n" | sort | uniq -u
+    # Eg.: $ gfind dir1 dir2 -printf "%P\t%s\n" | sort | uniq -u
     cmd = '{} "{}" "{}" -printf "%P\\t%s\\n" | {} | {} -u'.format(
         FIND_CMD, dir1, dir2, SORT_CMD, UNIQ_CMD)
     output = subprocess.check_output(cmd, shell=True).rstrip()

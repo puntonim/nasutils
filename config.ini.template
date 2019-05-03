@@ -4,3 +4,7 @@ find-cmd = /usr/bin/find
 wc-cmd = /usr/bin/wc
 sort-cmd = /usr/bin/sort
 uniq-cmd = /usr/bin/uniq
+checksumfile-cmd = /sbin/md5 -q
+checksumstring-cmd = /sbin/md5 -qs
+tail-cmd = /usr/bin/tail
+sips-cmd = /usr/bin/sips
