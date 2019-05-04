@@ -12,15 +12,18 @@ See `readme.md` in each dir.
 ### 1. [Nimlinks](https://github.com/puntonim/nimlinks)
 Set of tools for macOS to create and handle special links to files.
 Especially useful when used with file sync apps like Synology Drive or Owncloud/Nextcloud.
- 
+
 ### 2. Dedupe
 Compare and deduplicate files and dirs. Particularly efficient with photos.
 
+### 3. BakConfigs
+Backup for any configuration item in the machine: `~/.ssh/config`, `/etc/hosts`, list of all `brew`-installed
+formulae, list of `/Applications`, SublimeText config dir, etc. Highly customizable.
 
 ## Development
-When writing Python code, try to:
- - write code compatible with Python 2 and 3 so that it works in old and new macOS versions
- - do not use any external library, so that no virtualenv is necessary. This way scripts work in any vanilla macOS.
+When writing Python code, especially if you aim at running the code on a NAS, try to:
+ - write code compatible with Python 2 and 3
+ - do not use any external library, so that no virtualenv is necessary.
 
 
 ## Copyright

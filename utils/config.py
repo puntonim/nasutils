@@ -42,5 +42,12 @@ class ConfigParserLazy(object):
         except AttributeError:
             return self._config_parser.get(section, name)  # Python 2.
 
+    def __getattr__(self, item):
+        # Lazily loading the config file.
+        if not self._config_parser:
+            self._config_parser = self._get_config_parser()
+
+        return getattr(self._config_parser, item)
+
 
 config = ConfigParserLazy()
