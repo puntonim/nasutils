@@ -9,8 +9,12 @@ Create `config.ini` (see `config.ini.template`)
 ## Utils list
 See `readme.md` in each dir.
 
-### Dedupe
-Compare and deduplicate files and dirs.
+### 1. [Nimlinks](https://github.com/puntonim/nimlinks)
+Set of tools for macOS to create and handle special links to files.
+Especially useful when used with file sync apps like Synology Drive or Owncloud/Nextcloud.
+ 
+### 2. Dedupe
+Compare and deduplicate files and dirs. Particularly efficient with photos.
 
 
 ## Development
