@@ -8,16 +8,17 @@ from msg import exit_with_error_msg
 
 
 class ConfigParserLazy(object):
-    def __init__(self, path=None):
+    def __init__(self, path=None, defaults=None):
         self.path = path
         self._config_parser = None
+        self.defaults = defaults
 
     def _get_config_parser(self):
         if not self.path:
             # Then get config.ini.
             dirpath = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
             self.path = os.path.join(dirpath, 'config.ini')
-        config_parser = ConfigParser()
+        config_parser = ConfigParser() if not self.defaults else ConfigParser(self.defaults)
         try:
             config_parser.read(self.path)
         except MissingSectionHeaderError:

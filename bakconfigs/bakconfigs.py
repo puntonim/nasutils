@@ -12,17 +12,18 @@ config = None
 
 
 class CommandHandler(object):
-    def __init__(self, action, bakdir, target):
+    def __init__(self, action, bakdir, target=None, custom_cmd=None):
         self.action = action
         self.bakdir = bakdir
-        self.target = target.rstrip('/')
+        self.target = target.rstrip('/') if target else None
+        self.custom_cmd = custom_cmd
         # File name or dir name.
-        self.target_name = self.target[self.target.rfind('/')+1:]
+        self.target_name = self.target[self.target.rfind('/')+1:] if target else None
 
     def execute(self):
         if not os.path.isdir(self.bakdir):
             os.mkdir(self.bakdir)
-        return getattr(self, '_' + self.action)()
+        return getattr(self, '_' + self.action.replace(' ', '_'))()
 
     def _list(self):
         cmd = 'ls -alhs "{}" > "{}.txt"'.format(self.target, os.path.join(self.bakdir, self.target_name))
@@ -32,6 +33,10 @@ class CommandHandler(object):
         cmd = 'zip -r "{}.zip" "{}"'.format(os.path.join(self.bakdir, self.target_name), self.target_name)
         cwd = os.path.expanduser(self.target[:-len(self.target_name)])
         subprocess.check_call(cmd, cwd=cwd, shell=True)
+
+    def _custom_command(self):
+        cmd = '{} > "{}.txt"'.format(self.custom_cmd, os.path.join(self.bakdir, self.custom_cmd.split(' ')[0]))
+        subprocess.check_call(cmd, shell=True)
 
 
 def parse_args():
@@ -51,7 +56,7 @@ def parse_args():
 def load_config():
     path = os.path.join(root, 'bakconfigs.ini')
     global config
-    config = utils.ConfigParserLazy(path)
+    config = utils.ConfigParserLazy(path, defaults=dict(cmd=None, target=None))
 
 
 def bak():
@@ -60,8 +65,9 @@ def bak():
         bakdir_fullpath = os.path.join(root, bakdir)
         action = config.get(section, 'action')
         target = config.get(section, 'target')
+        custom_cmd = config.get(section, 'cmd', None)
         utils.print_msg('> Excuting {}...'.format(section))
-        cmd = CommandHandler(action, bakdir_fullpath, target)
+        cmd = CommandHandler(action, bakdir_fullpath, target, custom_cmd)
         cmd.execute()
 
 
