@@ -9,7 +9,7 @@ The root dir can contain many files and subdirs.
 The duplicated files are printed in output.
 
 Usage:
-    $ dedupe_files.py [--write-rm-script] [--exclude-pathname="*.iso"] [--metadata-checksum-first] root
+    $ ./dedupe_files.py [--write-rm-script] [--exclude-pathname="*.iso"] [--metadata-checksum-first] root
 Options:
     --write-rm-script           Write a Bash script for the actual deletion of duplicated files
     --metadata-checksum-first   Try to read the metadata and compute the checksum on metadata. Particularly efficient

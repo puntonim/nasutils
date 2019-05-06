@@ -6,7 +6,7 @@ Lines' order is preserved. Unique lines are printed in stdout.
 A possible use case: deduplicate ~/.bash_history if you do not use HISTCONTROL=erasedups
 
 Usage:
-    $ dedupe_lines.py myfile.txt
+    $ ./dedupe_lines.py myfile.txt
 """
 from __future__ import print_function
 

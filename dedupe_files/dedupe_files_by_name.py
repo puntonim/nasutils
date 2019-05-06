@@ -10,7 +10,7 @@ $ find root -type f ! -path "*@eaDir*" ! -name '.DS_Store' -printf "%f\t%s\n" | 
 $ md5 -q myfile.jpg
 
 Usage:
-    $ dedupe_files_by_name.py [--write-rm-script] [--exclude-pathname="*.iso"] root
+    $ ./dedupe_files_by_name.py [--write-rm-script] [--exclude-pathname="*.iso"] root
 Options:
     --write-rm-script       Write a Bash script for the actual deletion of duplicated files
     --exclude-pathname      Exclude files with this name in their path.

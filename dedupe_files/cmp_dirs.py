@@ -9,7 +9,7 @@ It is a wrapper around the command:
 $ find dir1 dir2 -printf "%P\t%s\n" | sort | uniq -u
 
 Usage:
-    $ cmp_dirs.py dir1 dir
+    $ ./cmp_dirs.py dir1 dir
 """
 import os
 import subprocess
