@@ -1,4 +1,4 @@
-# Dedupe
+# Dedupe files
 
 Compare and deduplicate files and dirs.
 
