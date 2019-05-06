@@ -8,3 +8,6 @@ checksumfile-cmd = /sbin/md5 -q
 checksumstring-cmd = /sbin/md5 -qs
 tail-cmd = /usr/bin/tail
 sips-cmd = /usr/bin/sips
+ls-cmd = /bin/ls
+zip-cmd = /usr/bin/zip
+rsync-cmd = /usr/bin/rsync

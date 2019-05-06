@@ -7,6 +7,11 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 import utils
 
 
+LS_CMD = utils.config.get('main', 'ls-cmd')
+ZIP_CMD = utils.config.get('main', 'zip-cmd')
+RSYC_CMD = utils.config.get('main', 'rsync-cmd')
+
+
 root = None
 config = None
 
@@ -15,7 +20,7 @@ class CommandHandler(object):
     def __init__(self, action, bakdir, target=None, custom_cmd=None):
         self.action = action
         self.bakdir = bakdir
-        self.target = target.rstrip('/') if target else None
+        self.target = os.path.expanduser(target.rstrip('/')) if target else None
         self.custom_cmd = custom_cmd
         # File name or dir name.
         self.target_name = self.target[self.target.rfind('/')+1:] if target else None
@@ -26,13 +31,21 @@ class CommandHandler(object):
         return getattr(self, '_' + self.action.replace(' ', '_'))()
 
     def _list(self):
-        cmd = 'ls -alhs "{}" > "{}.txt"'.format(self.target, os.path.join(self.bakdir, self.target_name))
+        cmd = '{} -alhs "{}" > "{}.txt"'.format(LS_CMD, self.target, os.path.join(self.bakdir, self.target_name))
         subprocess.check_call(cmd, shell=True)
 
     def _zip(self):
-        cmd = 'zip -r "{}.zip" "{}"'.format(os.path.join(self.bakdir, self.target_name), self.target_name)
-        cwd = os.path.expanduser(self.target[:-len(self.target_name)])
+        zip_path = os.path.join(self.bakdir, self.target_name.lstrip('.'))
+        cmd = '{} -r "{}.zip" "{}"'.format(ZIP_CMD, zip_path, self.target_name)
+        cwd = self.target[:-len(self.target_name)]
         subprocess.check_call(cmd, cwd=cwd, shell=True)
+
+    def _copy(self):
+        copy_path = os.path.join(self.bakdir, self.target_name.lstrip('.'))
+        if os.path.isdir(self.target):
+            self.target += '/'
+        cmd = '{} -av --progress --delete "{}" "{}"'.format(RSYC_CMD, self.target, copy_path)
+        subprocess.check_call(cmd, shell=True)
 
     def _custom_command(self):
         cmd = '{} > "{}.txt"'.format(self.custom_cmd, os.path.join(self.bakdir, self.custom_cmd.split(' ')[0]))
