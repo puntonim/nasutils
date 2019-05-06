@@ -13,10 +13,13 @@ See `readme.md` in each dir.
 Set of tools for macOS to create and handle special links to files.
 Especially useful when used with file sync apps like Synology Drive or Owncloud/Nextcloud.
 
-### 2. Dedupe
+### 2. Dedupe files
 Compare and deduplicate files and dirs. Particularly efficient with photos.
 
-### 3. BakConfigs
+### 3. Dedupe lines
+Deduplicate lines in a text file.
+
+### 4. BakConfigs
 Backup for any configuration item in the machine: `~/.ssh/config`, `/etc/hosts`, list of all `brew`-installed
 formulae, list of `/Applications`, SublimeText config dir, etc. Highly customizable.
 
